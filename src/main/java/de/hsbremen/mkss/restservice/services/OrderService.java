@@ -25,8 +25,13 @@ public class OrderService {
     }
 
     // Retrieving an order with a given id
-    public String findOrder(Integer id){
-        return orderRepository.getById(id).toString();
+    public Order findOrder(Integer id){
+        return orderRepository.findById(id).get();
+    }
+
+    // Retrieving an order
+    public Object showOrder(Integer id){
+        return orderRepository.showOrder(id);
     }
 
     // Retrieving all line items of an order with a given id

@@ -17,24 +17,25 @@ public class LineItem implements Serializable {
     @GeneratedValue
     private Integer id;
 
-    @Column(name = "product_name")
+    @Column(name = "product_name", nullable = false)
     private String productName;
 
+    @Column(nullable = false)
     private Float price;
 
+    @Column(nullable = false)
     private Integer quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     public LineItem() {
     }
 
-    public LineItem(String productName, Float price, Integer quantity, Order order) {
+    public LineItem(String productName, Float price, Integer quantity) {
         this.productName = productName;
         this.price = price;
         this.quantity = quantity;
-        this.order = order;
     }
 }

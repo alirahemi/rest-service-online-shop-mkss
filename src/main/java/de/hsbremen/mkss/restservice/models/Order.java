@@ -24,11 +24,10 @@ public class Order implements Serializable {
     @CreationTimestamp
     private LocalDateTime date;
 
-    @Column(name = "customer_name")
+    @Column(name = "customer_name", nullable = false)
     private String customerName;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<LineItem> lineItems;
 
     public Order() {
@@ -36,14 +35,5 @@ public class Order implements Serializable {
 
     public Order(String customerName) {
         this.customerName = customerName;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", date=" + date +
-                ", customerName='" + customerName + '\'' +
-                '}';
     }
 }

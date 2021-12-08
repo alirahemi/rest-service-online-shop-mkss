@@ -13,7 +13,8 @@ public class LineItemService {
     private OrderRepository orderRepository;
 
     @Autowired
-    public LineItemService(LineItemRepository lineItemRepository) {
+    public LineItemService(LineItemRepository lineItemRepository, OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
         this.lineItemRepository = lineItemRepository;
     }
 
@@ -30,8 +31,6 @@ public class LineItemService {
     }
 
     public void removeitem(Integer orderId, Integer itemId) {
-        System.out.println(orderId);
-        System.out.println(lineItemRepository.getById(itemId));
         lineItemRepository.getById(itemId).setOrder(orderRepository.getById(orderId));
     }
 }

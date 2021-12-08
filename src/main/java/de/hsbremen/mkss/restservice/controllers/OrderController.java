@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -20,6 +19,12 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    // Retrieving an order
+    @GetMapping(value = "/order/{id}")
+    public Object showOrder(@PathVariable("id") Integer id){
+        return orderService.showOrder(id);
+    }
+
     // Retrieving all orders (including associated line items)
     @GetMapping
     public List<Order> findAllOrders(){
@@ -28,7 +33,7 @@ public class OrderController {
 
     // Retrieving an order with a given id
     @GetMapping(value = "/{id}")
-    public String findOrder(@PathVariable("id") Integer id){
+    public Order findOrder(@PathVariable("id") Integer id){
         return orderService.findOrder(id);
     }
 
@@ -50,11 +55,5 @@ public class OrderController {
         return "order is deleted with ID " + id;
     }
 
-/*    @DeleteMapping(value = "/{itemId}/{orderId}")
-    public String deleteItem(@PathVariable("itemId") Integer itemId, @PathVariable("orderId") Integer orderId) {
-//        System.out.println("hello");
-//        System.out.println(orderService.findItemsOfOrder(orderId));
-        orderService.removeitem(orderId,itemId);
-         return "Item is deleted with ID " + itemId;
-    }*/
+
 }
