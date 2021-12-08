@@ -34,11 +34,8 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Integer id, String customerName,LocalDateTime date , List<LineItem> lineItems) {
-        this.id = id;
+    public Order(String customerName) {
         this.customerName = customerName;
-        this.date = date;
-        this.lineItems = lineItems;
     }
 
     @Override
