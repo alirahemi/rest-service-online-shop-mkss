@@ -4,15 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 
 @Data
 @Entity
 @Table(name = "line_item")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class LineItem {
+public class LineItem implements Serializable {
 
     @Id
     @GeneratedValue
@@ -25,15 +24,17 @@ public class LineItem {
 
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     public LineItem() {
     }
 
-    public LineItem(String productName, Float price, Integer quantity) {
+    public LineItem(String productName, Float price, Integer quantity, Order order) {
         this.productName = productName;
         this.price = price;
         this.quantity = quantity;
+        this.order = order;
     }
 }

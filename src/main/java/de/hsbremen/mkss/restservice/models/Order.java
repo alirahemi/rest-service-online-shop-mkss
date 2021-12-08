@@ -1,8 +1,6 @@
 package de.hsbremen.mkss.restservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,14 +27,18 @@ public class Order implements Serializable {
     @Column(name = "customer_name")
     private String customerName;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private List<LineItem> lineItems;
 
     public Order() {
     }
 
-    public Order(String customerName) {
+    public Order(Integer id, String customerName,LocalDateTime date , List<LineItem> lineItems) {
+        this.id = id;
         this.customerName = customerName;
+        this.date = date;
+        this.lineItems = lineItems;
     }
 
     @Override
