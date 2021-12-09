@@ -29,11 +29,6 @@ public class OrderService {
         return orderRepository.findById(id).get();
     }
 
-    // Retrieving an order
-    public Object showOrder(Integer id){
-        return orderRepository.showOrder(id);
-    }
-
     // Retrieving all line items of an order with a given id
 
     public List<LineItem> findItemsOfOrder(Integer id){
@@ -50,10 +45,4 @@ public class OrderService {
     public void deleteById(Integer id) {
         orderRepository.deleteById(id);
     }
-
-/*    public  void removeitem(Integer orderId,Integer itemId){
-       System.out.println(findItemsOfOrder(orderId));
-        orderRepository.getById(orderId).;
-        //findItemsOfOrder(orderId).remove(lineItemRepository.findById(itemId).get());
-    }*/
 }

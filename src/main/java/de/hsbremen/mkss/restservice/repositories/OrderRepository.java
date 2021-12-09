@@ -7,11 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
-
 @Repository
 public interface OrderRepository extends JpaRepository <Order, Integer> {
 
-    @Query("select o.id,o.customerName,o.date from Order o where o.id = :id")
-    Object showOrder(@Param("id") Integer id);
+    /*@Query("select o.id,o.customerName,o.date from Order o where o.id = :id")
+    Object showOrder(@Param("id") Integer id);*/
 
 }
