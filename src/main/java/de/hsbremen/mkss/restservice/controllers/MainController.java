@@ -58,14 +58,20 @@ public class MainController {
     // Adding a line item to an order
     @PostMapping(value = "/{orderId}/items")
     public LineItem registerLineItem(@PathVariable(value = "orderId") Integer orderId, @Valid @RequestBody LineItem lineItem){
+        orderService.findOrder(orderId).setStatus("IN_PREPARATION");
         lineItem.setOrder( orderService.findOrder(orderId));
         return lineItemService.registerLineItemm(lineItem);
     }
 
     // Removing a line item from an order
-/*    @DeleteMapping(value = "/{orderId}/items/{itemId}")
-    public void deleteItem(@PathVariable("orderId") Integer orderId, @PathVariable("itemId") Integer itemId ) {
-        lineItemService.removeitem(orderId,itemId);
-    }*/
+    @DeleteMapping(value = "/{itemId}/items")
+    public void deleteItem(@PathVariable("itemId") Integer itemId ) {
+        lineItemService.removeitem(itemId);
+    }
+
+    @GetMapping("/{orderId}/purchase")
+    public void purchase(@PathVariable(value = "orderId") Integer orderId){
+        orderService.purchase(orderId);
+    }
 
 }

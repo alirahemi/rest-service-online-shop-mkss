@@ -2,6 +2,7 @@ package de.hsbremen.mkss.restservice.services;
 
 import de.hsbremen.mkss.restservice.models.LineItem;
 import de.hsbremen.mkss.restservice.models.Order;
+import de.hsbremen.mkss.restservice.repositories.LineItemRepository;
 import de.hsbremen.mkss.restservice.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,13 @@ import java.util.List;
 public class OrderService {
 
     private OrderRepository orderRepository;
+    private LineItemRepository lineItemRepository;
+    private LineItemService lineItemService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, LineItemService lineItemService, LineItemRepository lineItemRepository) {
+        this.lineItemRepository = lineItemRepository;
+        this.lineItemService = lineItemService;
         this.orderRepository = orderRepository;
     }
 
@@ -38,11 +43,32 @@ public class OrderService {
 
     // Creating a new order
     public Order saveOrder(Order order){
+        order.setStatus("EMPTY");
         return orderRepository.save(order);
     }
 
     // Deleting an order.
     public void deleteById(Integer id) {
         orderRepository.deleteById(id);
+    }
+
+    public void purchase(Integer orderId) {
+        if (orderRepository.getById(orderId).getStatus().equals("IN_PREPARATION")
+            && !orderRepository.getById(orderId).getStatus().equals("COMMITTED") ){
+            orderRepository.getById(orderId).setStatus("COMMITTED");
+            orderRepository.save(orderRepository.getById(orderId));
+            warehousControll(orderRepository.getById(orderId));
+        }
+    }
+
+    public void warehousControll(Order order){
+        if (true){
+            order.setStatus("ACCEPTED");
+            orderRepository.save(order);
+            System.out.println(order.getStatus());
+        } else  {
+            order.setStatus("REJECTED");
+            orderRepository.save(order);
+        }
     }
 }

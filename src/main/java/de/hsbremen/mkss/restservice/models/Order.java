@@ -31,10 +31,13 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<LineItem> lineItems;
 
+    private String status;
+
     public Order() {
     }
 
-    public Order(String customerName) {
+    public Order(String customerName, String status) {
+        this.status = status;
         this.customerName = customerName;
     }
 }

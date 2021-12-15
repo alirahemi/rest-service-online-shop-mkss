@@ -27,7 +27,7 @@ public class LineItem implements Serializable {
     @Column(nullable = false)
     private Integer quantity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
