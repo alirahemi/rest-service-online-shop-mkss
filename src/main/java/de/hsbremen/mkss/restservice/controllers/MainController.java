@@ -36,7 +36,7 @@ public class MainController {
     }
 
     // Retrieving all line items of an order with a given id
-    @GetMapping(value = "/items/{id}")
+    @GetMapping(value = "/{id}/items")
     public List<LineItem> findOrderWithItem(@PathVariable("id") Integer id){
         return orderService.findItemsOfOrder(id);
     }
@@ -49,9 +49,10 @@ public class MainController {
 
     // Deleting an order
     @DeleteMapping(value = "/{id}")
-    public String delete(@PathVariable("id") Integer id) {
+    public Order delete(@PathVariable("id") Integer id) {
+        Order order = orderService.findOrder(id);
         orderService.deleteById(id);
-        return "order is deleted with ID " + id;
+        return order;
     }
 
     // Adding a line item to an order
@@ -62,10 +63,9 @@ public class MainController {
     }
 
     // Removing a line item from an order
-    @PostMapping(value = "/{orderId}/items/{itemId}")
-    public String deleteItem(@PathVariable("itemId") Integer itemId, @PathVariable("orderId") Integer orderId) {
+/*    @DeleteMapping(value = "/{orderId}/items/{itemId}")
+    public void deleteItem(@PathVariable("orderId") Integer orderId, @PathVariable("itemId") Integer itemId ) {
         lineItemService.removeitem(orderId,itemId);
-        return "Item is deleted with ID " + itemId;
-    }
+    }*/
 
 }
