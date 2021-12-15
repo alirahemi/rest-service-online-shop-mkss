@@ -7,10 +7,6 @@ import de.hsbremen.mkss.restservice.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class LineItemService {
 
@@ -29,9 +25,17 @@ public class LineItemService {
     }
 
     // Removing a line item from an order
-    @Transactional
+
     public void removeitem(Integer itemId)
     {
+
+        Order o  = lineItemRepository.getById(itemId).getOrder();
         lineItemRepository.deleteById(itemId);
+
+        if (o.getLineItems().isEmpty()) {
+            o.setStatus("Empty");
+            orderRepository.save(o);
+        }
+
     }
 }

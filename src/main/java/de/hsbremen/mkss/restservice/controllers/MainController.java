@@ -67,6 +67,7 @@ public class MainController {
     @DeleteMapping(value = "/{itemId}/items")
     public void deleteItem(@PathVariable("itemId") Integer itemId ) {
         lineItemService.removeitem(itemId);
+
     }
 
     @GetMapping("/{orderId}/purchase")
