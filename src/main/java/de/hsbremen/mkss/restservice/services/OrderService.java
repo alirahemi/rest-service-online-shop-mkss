@@ -1,5 +1,6 @@
 package de.hsbremen.mkss.restservice.services;
 
+import de.hsbremen.mkss.restservice.errorHandling.OrderNotFoundException;
 import de.hsbremen.mkss.restservice.models.LineItem;
 import de.hsbremen.mkss.restservice.models.Order;
 import de.hsbremen.mkss.restservice.repositories.LineItemRepository;
@@ -53,12 +54,14 @@ public class OrderService {
     }
 
     public void purchase(Integer orderId) {
-        if (orderRepository.getById(orderId).getStatus().equals("IN_PREPARATION")
-            && !orderRepository.getById(orderId).getStatus().equals("COMMITTED") ){
+        String s = orderRepository.getById(orderId).getStatus();
+        if (s.equals("IN_PREPARATION")){
             orderRepository.getById(orderId).setStatus("COMMITTED");
             orderRepository.save(orderRepository.getById(orderId));
-            warehousControll(orderRepository.getById(orderId));
-        }
+          //  warehousControll(orderRepository.getById(orderId));
+        }else
+            throw new OrderNotFoundException("Purchase can Not be done because the status is :" + s);
+
     }
 
     public void warehousControll(Order order){
