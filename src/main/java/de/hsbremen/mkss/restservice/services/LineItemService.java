@@ -33,7 +33,7 @@ public class LineItemService {
         lineItemRepository.deleteById(itemId);
 
         if (o.getLineItems().isEmpty()) {
-            o.setStatus("Empty");
+            o.setStatus("EMPTY");
             orderRepository.save(o);
         }
 
