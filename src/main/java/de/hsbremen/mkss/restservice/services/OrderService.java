@@ -1,5 +1,6 @@
 package de.hsbremen.mkss.restservice.services;
 
+import de.hsbremen.mkss.restservice.XYZEventsProducer;
 import de.hsbremen.mkss.restservice.errorHandling.OrderNotFoundException;
 import de.hsbremen.mkss.restservice.models.LineItem;
 import de.hsbremen.mkss.restservice.models.Order;
@@ -17,12 +18,17 @@ public class OrderService {
     private OrderRepository orderRepository;
     private LineItemRepository lineItemRepository;
     private LineItemService lineItemService;
+    private XYZEventsProducer xyzEventsProducer;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, LineItemService lineItemService, LineItemRepository lineItemRepository) {
+    public OrderService(OrderRepository orderRepository,
+                        LineItemService lineItemService,
+                        LineItemRepository lineItemRepository,
+                        XYZEventsProducer xyzEventsProducer) {
         this.lineItemRepository = lineItemRepository;
         this.lineItemService = lineItemService;
         this.orderRepository = orderRepository;
+        this.xyzEventsProducer = xyzEventsProducer;
     }
 
     // Retrieving all orders (including associated line items)
@@ -58,7 +64,7 @@ public class OrderService {
         if (s.equals("IN_PREPARATION")){
             orderRepository.getById(orderId).setStatus("COMMITTED");
             orderRepository.save(orderRepository.getById(orderId));
-          //  warehousControll(orderRepository.getById(orderId));
+            xyzEventsProducer.emitCreateEvent(orderRepository.getById(orderId));
         }else
             throw new OrderNotFoundException("Purchase can Not be done because the status is :" + s);
 
