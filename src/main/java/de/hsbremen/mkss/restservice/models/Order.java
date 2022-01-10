@@ -1,7 +1,6 @@
 package de.hsbremen.mkss.restservice.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,7 +13,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "order_tbl")
-//@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Order implements Serializable {
 

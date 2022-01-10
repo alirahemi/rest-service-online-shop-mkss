@@ -43,7 +43,7 @@ public class MainController {
 
     // Creating a new order
     @PostMapping(value = "/register")
-    public Order createOrder(@RequestBody Order order){
+    public Order findOrderWithItem(@RequestBody Order order){
         return orderService.saveOrder(order);
     }
 
